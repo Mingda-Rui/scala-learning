@@ -12,15 +12,15 @@ sealed trait Slist {
 
   def penultimate: Int // P02
   def nth(index: Int): Int //P04
-  def reverse(): Slist = {
+  def reverse(): Slist = { //P05
     @tailrec def _reverse(accum: Slist, rem: Slist): Slist = rem match {
       case Scons(h, t) => _reverse(Scons(h, accum), t)
       case Snil        => accum
     }
     _reverse(Snil, this)
   }
-  def isPalindrome(): Boolean = this == this.reverse
-  def compress(): Slist = {
+  def isPalindrome(): Boolean = this == this.reverse //P06
+  def compress(): Slist = { //P08
     def _compress(elem: Int, l: Slist): Slist = l match {
       case Scons(h, tail) if elem == h => _compress(elem, tail)
       case Scons(h, tail)              => Scons(h, _compress(h, tail))
@@ -28,6 +28,8 @@ sealed trait Slist {
     }
     _compress(-1, this)
   }
+
+  //def duplicate(): Slist //P14
   def duplicate(): Slist = {
     def _duplicate(l: Slist): Slist = l match {
       case Scons(h, tail) => Scons(h, Scons(h, _duplicate(tail)))
@@ -35,7 +37,7 @@ sealed trait Slist {
     }
     _duplicate(this)
   }
-  def duplicateN(times: Int): Slist = {
+  def duplicateN(times: Int): Slist = { //P15
     @tailrec def helper(timesLeft: Int, acum: Slist, rem: Slist): Slist = {
       if(!rem.isEmpty) {
         if(timesLeft > 0) {

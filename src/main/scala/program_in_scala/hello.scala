@@ -1,1 +1,5 @@
-println("Hello, world, from a script!")
+object hello{
+    def main(args: Array[String]): Unit = {
+        println("Hello, world from a script!")
+    }
+}

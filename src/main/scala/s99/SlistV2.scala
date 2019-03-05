@@ -28,6 +28,10 @@ sealed trait Slist {
     }
     _compress(-1, this)
   }
+  /*
+    def compres_v2(): Slist = this match {
+      case Scons(h, t) => if
+    }*/
 
   //def duplicate(): Slist //P14
   def duplicate(): Slist = {

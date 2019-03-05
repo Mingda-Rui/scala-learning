@@ -11,50 +11,36 @@ sealed trait Slist {
   def length: Int
 
   def penultimate: Int // P02
-  def nth(index: Int): Int //P03
-  def reverse(): Slist = { //P05
+  def nth(index: Int): Int // P03
+
+  // P05
+  def reverse(): Slist = {
     @tailrec def _reverse(accum: Slist, rem: Slist): Slist = rem match {
       case Scons(h, t) => _reverse(Scons(h, accum), t)
       case Snil        => accum
     }
     _reverse(Snil, this)
   }
-  def isPalindrome(): Boolean = this == this.reverse //P06
-  def compress(): Slist = { //P08
-    def _compress(elem: Int, l: Slist): Slist = l match {
-      case Scons(h, tail) if elem == h => _compress(elem, tail)
-      case Scons(h, tail)              => Scons(h, _compress(h, tail))
-      case Snil                        => Snil
-    }
-    _compress(-1, this)
-  }
-  /*
-    def compres_v2(): Slist = this match {
-      case Scons(h, t) => if
-    }*/
 
-  //def duplicate(): Slist //P14
-  def duplicate(): Slist = {
-    def _duplicate(l: Slist): Slist = l match {
-      case Scons(h, tail) => Scons(h, Scons(h, _duplicate(tail)))
+  // P06
+  def isPalindrome(): Boolean = this == this.reverse
+
+  // P08
+  def compress(): Slist = {
+    def compressHelper(elem: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if h == elem => compressHelper(h, t)
+      case Scons(h, t) => h :: compressHelper(h, t)
       case Snil => Snil
     }
-    _duplicate(this)
+    compressHelper(-1, this)
   }
-  def duplicateN(times: Int): Slist = { //P15
-    @tailrec def helper(timesLeft: Int, acum: Slist, rem: Slist): Slist = {
-      if(!rem.isEmpty) {
-        if(timesLeft > 0) {
-          helper(timesLeft - 1, Scons(rem.head, acum), rem)
-        } else {
-          helper(times, acum, rem.tail)
-        }
-      } else {
-        acum.reverse()
-      }
-    }
-    helper(times, Snil, this)
-  }
+
+  // P14
+  def duplicate(): Slist
+
+  // P15
+  def duplicateN(times: Int): Slist
+
   //def drop(nth: Int): Slist //P16
   //def split(index: Int): (Slist, Slist) //P17
   //def slice(i: Int, k: Int): Slist //P18

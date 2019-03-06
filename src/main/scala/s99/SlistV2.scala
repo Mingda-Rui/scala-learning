@@ -1,4 +1,4 @@
-package scalaweekly
+package mingdascala
 
 import scala.annotation.tailrec
 
@@ -36,18 +36,24 @@ sealed trait Slist {
   }
 
   // P14
-  def duplicate(): Slist
+  def duplicate(): Slist = {
+    def duplicateHelper(l: Slist): Slist = l match {
+      case Scons(h, t) => Scons(h, h::duplicateHelper(t))
+      case Snil => Snil
+    }
+    duplicateHelper(this)
+  }
 
   // P15
-  def duplicateN(times: Int): Slist
+  //def duplicateN(times: Int): Slist
 
   //def drop(nth: Int): Slist //P16
   //def split(index: Int): (Slist, Slist) //P17
   //def slice(i: Int, k: Int): Slist //P18
+  //def rotate(n: Int): Slist //P19
   //def removeAt(i: Int): Slist //P20
   //def insertAt(i: Int, elem: Int): Slist //P21
   //def range(start: Int, end: Int): Slist //P22
-  //def rotate(n: Int): Slist //P19
 
   // finish later
   def map(f: Int => Int): Slist = this match {

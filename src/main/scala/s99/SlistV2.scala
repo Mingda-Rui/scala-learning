@@ -25,7 +25,7 @@ sealed trait Slist {
   // P06
   def isPalindrome(): Boolean = this == this.reverse
 
-  // P08
+  // *P08
   def compress(): Slist = {
     def compressHelper(elem: Int, l: Slist): Slist = l match {
       case Scons(h, t) if h == elem => compressHelper(h, t)
@@ -35,7 +35,7 @@ sealed trait Slist {
     compressHelper(-1, this)
   }
 
-  // P14
+  // *P14
   def duplicate(): Slist = {
     def duplicateHelper(l: Slist): Slist = l match {
       case Scons(h, t) => Scons(h, h::duplicateHelper(t))
@@ -45,7 +45,20 @@ sealed trait Slist {
   }
 
   // P15
-  //def duplicateN(times: Int): Slist
+  def duplicateN(times: Int): Slist = {
+
+    def duplicateNHelper(times: Int, l: Slist): Slist = l match {
+      case Scons(h, t) => multiplyN(times, h, duplicateNHelper(times, t))
+      case Snil => Snil
+    }
+
+    def multiplyN(times: Int, h: Int, t: Slist): Slist = times match {
+      case 0 => t
+      case times if times > 0 => Scons(h, multiplyN(times-1, h, t))
+    }
+
+    duplicateNHelper(times, this)
+  }
 
   //def drop(nth: Int): Slist //P16
   //def split(index: Int): (Slist, Slist) //P17
@@ -133,5 +146,5 @@ object Test extends App {
     case _                                 => "something else"
   }
 
-  println(Slist(1, 2, 3).duplicate())
+  println(Slist(1, 2, 3).duplicateN(4))
 }

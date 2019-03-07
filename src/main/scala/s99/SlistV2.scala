@@ -44,11 +44,11 @@ sealed trait Slist {
     duplicateHelper(this)
   }
 
-  // P15
+  // *P15
   def duplicateN(times: Int): Slist = {
 
-    def duplicateNHelper(times: Int, l: Slist): Slist = l match {
-      case Scons(h, t) => multiplyN(times, h, duplicateNHelper(times, t))
+    def duplicateNHelper(l: Slist): Slist = l match {
+      case Scons(h, t) => multiplyN(times, h, duplicateNHelper(t))
       case Snil => Snil
     }
 
@@ -57,7 +57,7 @@ sealed trait Slist {
       case times if times > 0 => Scons(h, multiplyN(times-1, h, t))
     }
 
-    duplicateNHelper(times, this)
+    duplicateNHelper(this)
   }
 
   //def drop(nth: Int): Slist //P16

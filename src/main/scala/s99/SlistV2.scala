@@ -69,7 +69,22 @@ sealed trait Slist {
     }
     dropHelper(1, this)
   }
-  //def split(index: Int): (Slist, Slist) //P17
+
+  // *P17
+  def split(index: Int): (Slist, Slist) = {
+    def splitHelper(i: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if i > 1 => Scons(h, splitHelper(i-1, t))
+      case Scons(h, t) if i == 1 => Scons(h, Snil)
+      case Snil => Snil
+    }
+    def splitTail(i: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if i > 1 => splitTail(i-1, t)
+      case Scons(h, t) if i == 1 => t
+      case Snil => Snil
+    }
+    (splitHelper(index, this), splitTail(index, this))
+  }
+
   //def slice(i: Int, k: Int): Slist //P18
   //def rotate(n: Int): Slist //P19
   //def removeAt(i: Int): Slist //P20
@@ -154,5 +169,5 @@ object Test extends App {
     case _                                 => "something else"
   }
 
-  println(Slist(1, 2, 3, 4, 5).drop(7))
+  println(Slist(1, 2, 3, 4, 5).split(2))
 }

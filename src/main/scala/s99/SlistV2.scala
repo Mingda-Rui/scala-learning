@@ -85,7 +85,16 @@ sealed trait Slist {
     (splitHelper(index, this), splitTail(index, this))
   }
 
-  //def slice(i: Int, k: Int): Slist //P18
+  // *P18
+  def slice(i: Int, k: Int): Slist = {
+    def sliceHelper(i: Int, k: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if i > 0 => sliceHelper(i-1, k-1, t)
+      case Scons(h, t) if i <= 0 && k > 0 => Scons(h, sliceHelper(i-1, k-1, t))
+      case Scons(h, t) if k == 0 => Snil
+      case Snil => Snil
+    }
+    sliceHelper(i, k, this)
+  }
   //def rotate(n: Int): Slist //P19
   //def removeAt(i: Int): Slist //P20
   //def insertAt(i: Int, elem: Int): Slist //P21
@@ -169,5 +178,5 @@ object Test extends App {
     case _                                 => "something else"
   }
 
-  println(Slist(1, 2, 3, 4, 5).split(2))
+  println(Slist(1, 2, 3, 4, 5, 6, 7).slice(2, 9))
 }

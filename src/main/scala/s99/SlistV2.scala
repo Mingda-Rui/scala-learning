@@ -60,7 +60,15 @@ sealed trait Slist {
     duplicateNHelper(this)
   }
 
-  //def drop(nth: Int): Slist //P16
+  // *P16
+  def drop(nth: Int): Slist = {
+    def dropHelper(position: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if position % nth == 0 => dropHelper(position+1, t)
+      case Scons(h, t) => Scons(h, dropHelper(position+1, t))
+      case Snil => Snil
+    }
+    dropHelper(1, this)
+  }
   //def split(index: Int): (Slist, Slist) //P17
   //def slice(i: Int, k: Int): Slist //P18
   //def rotate(n: Int): Slist //P19
@@ -146,5 +154,5 @@ object Test extends App {
     case _                                 => "something else"
   }
 
-  println(Slist(1, 2, 3).duplicateN(4))
+  println(Slist(1, 2, 3, 4, 5).drop(7))
 }

@@ -118,8 +118,13 @@ sealed trait Slist {
     }
     insertAtHelper(i, this)
   }
-  
-  //def range(start: Int, end: Int): Slist //P22
+
+  // *P22
+  def range(start: Int, end: Int): Slist = start match {
+    case start if start < end => Scons(start, range(start+1, end))
+    case start if start == end => Scons(end, Snil)
+    case start if start > end => throw new IllegalArgumentException("start number greater than end number")
+  }
 
   // finish later
   def map(f: Int => Int): Slist = this match {

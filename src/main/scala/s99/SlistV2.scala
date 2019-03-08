@@ -1,4 +1,4 @@
-package mingdascala
+package s99
 
 import scala.annotation.tailrec
 
@@ -107,25 +107,11 @@ sealed trait Slist {
     }
     removeAtHelper(i, this)
   }
+  
+  //def insertAt(i: Int, elem: Int): Slist //P21
+  //def range(start: Int, end: Int): Slist //P22
 
-  // *P21
-  def insertAt(i: Int, elem: Int): Slist = {
-    def insertAtHelper(i: Int, l: Slist): Slist = l match {
-      case Scons(h, t) if i > 0 => Scons(h, insertAtHelper(i-1, t))
-      case Scons(h, t) if i == 0 => Scons(elem, l)
-      case Scons(h, t) if i < 0 => throw new IllegalArgumentException("negative index is not allowed")
-      case Snil => Scons(elem, Snil)
-    }
-    insertAtHelper(i, this)
-  }
-
-  // *P22
-  def range(start: Int, end: Int): Slist = start match {
-    case start if start < end => Scons(start, range(start+1, end))
-    case start if start == end => Scons(end, Snil)
-    case start if start > end => throw new IllegalArgumentException("start number greater than end number")
-  }
-
+  // finish later
   def map(f: Int => Int): Slist = this match {
     case Scons(head, tail) => Scons(f(head), tail.map(f))
     case Snil => Snil

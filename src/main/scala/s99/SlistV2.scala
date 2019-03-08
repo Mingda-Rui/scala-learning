@@ -107,8 +107,18 @@ sealed trait Slist {
     }
     removeAtHelper(i, this)
   }
+
+  // *P21
+  def insertAt(i: Int, elem: Int): Slist = {
+    def insertAtHelper(i: Int, l: Slist): Slist = l match {
+      case Scons(h, t) if i > 0 => Scons(h, insertAtHelper(i-1, t))
+      case Scons(h, t) if i == 0 => Scons(elem, l)
+      case Scons(h, t) if i < 0 => throw new IllegalArgumentException("negative index is not allowed")
+      case Snil => Scons(elem, Snil)
+    }
+    insertAtHelper(i, this)
+  }
   
-  //def insertAt(i: Int, elem: Int): Slist //P21
   //def range(start: Int, end: Int): Slist //P22
 
   // finish later

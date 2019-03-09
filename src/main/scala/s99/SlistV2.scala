@@ -145,6 +145,10 @@ sealed trait Slist {
       t.withFilter(f)
     case Snil => Snil
   }
+
+  def partition(f: Int => Boolean): (Slist, Slist) = {
+    (withFilter(f), withFilter(!f(_)))
+  }
 }
 
 final case class Scons(val head: Int, val tail: Slist) extends Slist {

@@ -137,6 +137,14 @@ sealed trait Slist {
       tail.foreach(f)
     case Snil => Snil
   }
+
+  def withFilter(f: Int => Boolean): Slist = this match{
+    case Scons(head, tail) if f(head) =>
+      Scons(head, tail.withFilter(f))
+    case Scons(_, t) =>
+      t.withFilter(f)
+    case Snil => Snil
+  }
 }
 
 final case class Scons(val head: Int, val tail: Slist) extends Slist {

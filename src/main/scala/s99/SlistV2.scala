@@ -126,9 +126,15 @@ sealed trait Slist {
     case start if start > end => throw new IllegalArgumentException("start number greater than end number")
   }
 
-  // finish later
   def map(f: Int => Int): Slist = this match {
     case Scons(head, tail) => Scons(f(head), tail.map(f))
+    case Snil => Snil
+  }
+
+  def foreach(f: Int => Unit): Unit = this match {
+    case Scons(head, tail) =>
+      f(head)
+      tail.foreach(f)
     case Snil => Snil
   }
 }

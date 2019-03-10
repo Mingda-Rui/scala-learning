@@ -154,6 +154,12 @@ sealed trait Slist {
     val notF: Int => Boolean = (i) => !f(i)
     (this.withFilter(f), this.withFilter(notF))
   }
+
+  def find(f: Int => Boolean): Option[Int] = this match {
+    case Scons(head, tail) if f(head) => Some(head)
+    case Scons(head, tail) => tail.find(f)
+    case Snil => None
+  }
 }
 
 final case class Scons(val head: Int, val tail: Slist) extends Slist {

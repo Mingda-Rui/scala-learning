@@ -160,6 +160,11 @@ sealed trait Slist {
     case Scons(head, tail) => tail.find(f)
     case Snil => None
   }
+
+  def takeWhile(f: Int => Boolean): Slist = this match {
+    case Scons(head, tail) if f(head) => Scons(head, tail.takeWhile(f))
+    case _ => Snil
+  }
 }
 
 final case class Scons(val head: Int, val tail: Slist) extends Slist {

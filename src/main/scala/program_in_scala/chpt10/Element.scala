@@ -7,6 +7,12 @@ abstract class Element {
     if (height == 0) 0 else contents(0).length    
 } 
 
-class ArrayElement(conts: Array[String]) extends Element {
-    def contents: Array[String] = conts
-}
+// Original ArrayElement
+// class ArrayElement(conts: Array[String]) extends Element {
+//    def contents: Array[String] = conts
+// }
+
+// parametric field definition
+class ArrayElement (
+  val contents: Array[String]
+) extends Element

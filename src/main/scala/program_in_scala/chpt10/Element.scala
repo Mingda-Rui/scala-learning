@@ -21,3 +21,12 @@ class LineElement(s: String) extends ArrayElement(Array(s)) {
   override val width = s.length
   override val height = 1
 }
+
+class UniformElement(
+  ch: Char,
+  override val width: Int,
+  override val height: Int,
+) extends Element {
+  private val line = ch.toString * width
+  def contents = Array.fill(height)(line)
+}

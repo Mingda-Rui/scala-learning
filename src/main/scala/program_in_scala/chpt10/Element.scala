@@ -16,3 +16,8 @@ abstract class Element {
 class ArrayElement (
   val contents: Array[String]
 ) extends Element
+
+class LineElement(s: String) extends ArrayElement(Array(s)) {
+  override val width = s.length
+  override val height = 1
+}

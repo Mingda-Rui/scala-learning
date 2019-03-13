@@ -15,6 +15,9 @@ abstract class Element {
   def demo() = {
     println("Element's implementation invoked")
   }
+
+  def above(that: Element): Element =
+    new ArrayElement(this.contents ++ that.contents)
 } 
 
 // Original ArrayElement

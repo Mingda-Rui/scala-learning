@@ -1,31 +1,27 @@
 package mingda.scala.learning.chpt10
 
+import Element.elem
+
 abstract class Element {
   def contents: Array[String]
-  val height = contents.length
-  val width = {
-    try {
-      if (height == 0) 0
-      else contents(0).length
-    } catch {
-      case _: Exception => 0
-    }
-  }
-
+  val height: Int = contents.length
+  val width: Int = 
+    if (height == 0) 0 else contents(0).length
+  
   def demo() = {
     println("Element's implementation invoked")
   }
 
   def above(that: Element): Element =
-    new ArrayElement(this.contents ++ that.contents)
+    elem(this.contents ++ that.contents)
 
   def beside(that: Element): Element =
-    new ArrayElement(
+    elem(
       for (
         (line1, line2) <- this.contents zip that.contents
       ) yield line1 + line2
     )
-
+    
   override def toString = contents mkString "\n"
 } 
 
@@ -45,7 +41,7 @@ object Element {
     }
   }
 
-  private class LineELement(s: String) extends Element {
+  private class LineElement(s: String) extends Element {
     val contents = Array(s)
     override val width = s.length
     override val height = 1

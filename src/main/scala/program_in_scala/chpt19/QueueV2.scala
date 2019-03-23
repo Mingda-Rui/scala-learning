@@ -1,28 +1,28 @@
-trait Queue[T] {
+trait QueueV2[T] {
   def head: T
-  def tail: Qeueu[T]
-  def enqueue(x: T): Queue[T]
+  def tail: QueueV2[T]
+  def enqueue(x: T): QueueV2[T]
 }
 
-object Queue {
-  def apply[T](xs: T*): Queue[T] = 
-    new QueueImpl[T](xs.toList, Nil)
+object QueueV2 {
+  def apply[T](xs: T*): QueueV2[T] = 
+    new QueueV2Impl[T](xs.toList, Nil)
 
-  private class QueueImpl[T](
+  private class QueueV2Impl[T](
     private val leading: List[T],
     private val trailing: List[T]    
-  ) extends Queue[T] {
+  ) extends QueueV2[T] {
     def mirror = 
       if (leading.isEmpty)
-        new QueueImpl(trailing.reverse, Nil)
+        new QueueV2Impl(trailing.reverse, Nil)
       else 
         this
     def head: T = mirror.leading.head
-    def tail: QueueImpl[T] = {
+    def tail: QueueV2Impl[T] = {
       val q = mirror
-      new QueueImpl(q.leading.tail, q.trailing)
+      new QueueV2Impl(q.leading.tail, q.trailing)
     }
     def enqueue(x: T) =
-      new QueueImpl(leading, x :: trailing)
+      new QueueV2Impl(leading, x :: trailing)
   }
 }

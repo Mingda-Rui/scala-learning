@@ -15,3 +15,8 @@ class Queue[T](
   def enqueue(x: T) = 
     new Queue(leading, x :: trailing)
 }  
+
+object Queue {
+  // constructs a queue with initial elements 'xs'
+  def apply[T](xs: T*) = new Queue[T](xs.toList, Nil)
+}

@@ -20,6 +20,14 @@ sealed trait Slist[+T] {
     case Snil => throw new IllegalArgumentException("Empty Slist")
   }
   
+  def reverse: Slist[T] = {
+    def reverseHelper(current: Slist[T], result: Slist[T]): Slist[T] = current match {
+      case Snil => result
+      case Scons(head, tail) => reverseHelper(tail, Scons(head, result))
+    }
+    reverseHelper(this, Snil)
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -63,5 +71,8 @@ object Test extends App {
 
   println(slist1.last)
   println(slist2.last)
+  
+  println(slist1.reverse)
+  println(slist2.reverse)
   
 }

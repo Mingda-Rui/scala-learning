@@ -28,6 +28,11 @@ sealed trait Slist[+T] {
     reverseHelper(this, Snil)
   }
   
+  def map[E >: T](f: E => E): Slist[E] = this match {
+    case Snil => Snil
+    case Scons(head, tail) => Scons(f(head), tail.map(f))
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -74,5 +79,8 @@ object Test extends App {
   
   println(slist1.reverse)
   println(slist2.reverse)
+  
+  println(slist1.map((s: String) => s + "XL"))
+  println(slist2.map((i: Int) => i + 1))
   
 }

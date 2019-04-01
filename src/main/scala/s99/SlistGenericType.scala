@@ -44,6 +44,11 @@ sealed trait Slist[+T] {
     case Scons(head, tail) => tail.withFilter(f)
   }
   
+  def foldLeft[E >: T](init: E)(f: (E, E) => E): E = this match {
+    case Snil => init
+    case Scons(head, tail) => tail.foldLeft(f(init, head))(f)
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -99,5 +104,8 @@ object Test extends App {
   
   println(slist1.withFilter(_ != "b"))
   println(slist2.withFilter(_ >= 2))
+  
+  println(slist1.foldLeft("z")(_ + _))
+  println(slist2.foldLeft(0)(_ + _))
   
 }

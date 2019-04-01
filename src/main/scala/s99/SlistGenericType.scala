@@ -33,6 +33,11 @@ sealed trait Slist[+T] {
     case Scons(head, tail) => Scons(f(head), tail.map(f))
   }
   
+  def foreach[E >: T](f: E => Unit): Unit = this match {
+    case Snil => Snil
+    case Scons(head, tail) => f(head); tail.foreach(f)
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -82,5 +87,8 @@ object Test extends App {
   
   println(slist1.map((s: String) => s + "XL"))
   println(slist2.map((i: Int) => i + 1))
+  
+  slist1.foreach((s: String) => print(s + " ")); println
+  slist2.foreach((i: Int) => print(i + " ")); println
   
 }

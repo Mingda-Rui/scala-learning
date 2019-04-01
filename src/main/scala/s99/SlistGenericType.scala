@@ -14,6 +14,12 @@ sealed trait Slist[+T] {
   // (obviously you can copy as much as you can from the old Slist)
   // We will finally implement in class flattern and flatMap
 
+  def last: T = this match {
+    case Scons(head, Snil) => head
+    case Scons(head, tail) => tail.last
+    case Snil => throw new IllegalArgumentException("Empty Slist")
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -55,4 +61,7 @@ object Test extends App {
   val slist2 = Slist(1, 2, 3)
   println(1 :: 2 :: 3 :: Snil)
 
+  println(slist1.last)
+  println(slist2.last)
+  
 }

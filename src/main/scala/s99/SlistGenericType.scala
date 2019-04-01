@@ -38,6 +38,12 @@ sealed trait Slist[+T] {
     case Scons(head, tail) => f(head); tail.foreach(f)
   }
   
+  def withFilter[E >: T](f: E => Boolean): Slist[E] = this match {
+    case Snil => Snil
+    case Scons(head, tail) if f(head) => Scons(head, tail.withFilter(f))
+    case Scons(head, tail) => tail.withFilter(f)
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -90,5 +96,8 @@ object Test extends App {
   
   slist1.foreach((s: String) => print(s + " ")); println
   slist2.foreach((i: Int) => print(i + " ")); println
+  
+  println(slist1.withFilter(_ != "b"))
+  println(slist2.withFilter(_ >= 2))
   
 }

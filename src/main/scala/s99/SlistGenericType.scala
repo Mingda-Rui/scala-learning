@@ -58,6 +58,10 @@ sealed trait Slist[+T] {
     }.reverse
   }
   
+  def flatMap[B](f: T => Slist[B]): Slist[B] = {
+    this.map(f).flattern
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {
@@ -116,5 +120,13 @@ object Test extends App {
   
   println(slist1.foldLeft("z")(_ + _))
   println(slist2.foldLeft(0)(_ + _))
+  
+  val list = for {
+    l <- Slist(1, 2, 3, 4) if l % 2 == 0
+    l2 <- Slist(5, 6, 7, 8)
+  } yield l + l2
+  println(list)
+
+  println(Slist(Slist(1,2,3), Slist(4,5,6)).flattern)
   
 }

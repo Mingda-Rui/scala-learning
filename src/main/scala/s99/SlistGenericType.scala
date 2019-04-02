@@ -49,6 +49,15 @@ sealed trait Slist[+T] {
     case Scons(head, tail) => tail.foldLeft(f(init, head))(f)
   }
   
+  // List(List(1,2,3),List(4,5,6),List(8,9))
+  // i.g. B int, T is a list of Int
+  // def flattern[B: T is a Slist[B]]
+  def flattern[B](implicit ev: T <:< Slist[B]): Slist[B] = {
+    this.foldLeft[Slist[B]](Snil) { (acum, sublist) =>
+      sublist.foldLeft[Slist[B]](acum)((acum2, elem) => elem :: acum2)
+    }.reverse
+  }
+  
 }
 
 final case class Scons[T](val head: T, val tail: Slist[T]) extends Slist[T] {

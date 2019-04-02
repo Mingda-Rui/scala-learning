@@ -28,23 +28,23 @@ sealed trait Slist[+T] {
     reverseHelper(this, Snil)
   }
   
-  def map[E >: T](f: E => E): Slist[E] = this match {
+  def map[E](f: T => E): Slist[E] = this match {
     case Snil => Snil
     case Scons(head, tail) => Scons(f(head), tail.map(f))
   }
   
-  def foreach[E >: T](f: E => Unit): Unit = this match {
+  def foreach(f: T => Unit): Unit = this match {
     case Snil => Snil
     case Scons(head, tail) => f(head); tail.foreach(f)
   }
   
-  def withFilter[E >: T](f: E => Boolean): Slist[E] = this match {
+  def withFilter(f: T => Boolean): Slist[T] = this match {
     case Snil => Snil
     case Scons(head, tail) if f(head) => Scons(head, tail.withFilter(f))
     case Scons(head, tail) => tail.withFilter(f)
   }
   
-  def foldLeft[E >: T](init: E)(f: (E, E) => E): E = this match {
+  def foldLeft[E](init: E)(f: (E, T) => E): E = this match {
     case Snil => init
     case Scons(head, tail) => tail.foldLeft(f(init, head))(f)
   }
